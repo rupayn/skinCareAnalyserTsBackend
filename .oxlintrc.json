@@ -1,0 +1,73 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "ignorePatterns": [
+    "node_modules/**",
+    "dist/**",
+    "build/**",
+    "coverage/**",
+    ".next/**",
+    ".turbo/**",
+    "out/**"
+  ],
+  "plugins": [
+    "typescript",
+    "unicorn",
+    "oxc"
+  ],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "error",
+    "pedantic": "error",
+    "perf": "error",
+    "style": "error",
+    "restriction": "error"
+  },
+  "rules": {
+    "oxc/no-async-await":"off",
+    "sort-keys": "off",
+    "sort-imports": "off",
+    "sort-vars": "off",
+    "no-console": "error",
+    "no-debugger": "error",
+    "no-unused-vars": "error",
+    "no-duplicate-imports": "error",
+    "no-var": "error",
+    "one-var": "off",
+    "prefer-const": "error",
+    "eqeqeq": "error",
+    "curly": "error",
+    "no-eval": "error",
+    "no-implied-eval": "error",
+    "no-new-func": "error",
+    "no-unreachable": "error",
+    "no-constant-condition": "error",
+    "no-implicit-coercion": "error",
+    "no-nested-ternary": "error",
+    "no-warning-comments": "error",
+    "typescript/no-explicit-any": "error",
+    "typescript/no-non-null-assertion": "error",
+    "typescript/no-unused-vars": "error",
+    "typescript/consistent-type-imports": "error",
+    "typescript/explicit-function-return-type": "error",
+    "typescript/explicit-module-boundary-types": "error",
+    "unicorn/prefer-node-protocol": "error",
+    "unicorn/prefer-optional-catch-binding": "error",
+    "unicorn/no-array-for-each": "error",
+    "unicorn/no-null": "off",
+    "unicorn/prefer-string-slice": "error",
+    "unicorn/prefer-number-properties": "error",
+    "unicorn/error-message": "error",
+    "unicorn/throw-new-error": "error",
+    "unicorn/filename-case":[
+      "error",
+      {
+        "case":"camelCase"
+      }
+    ],
+    "no-undefined": "off",
+    "unicorn/no-typeof-undefined": "error"
+  },
+  "env": {
+    "builtin": true
+  }
+}

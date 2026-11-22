@@ -1,0 +1,39 @@
+{
+  "name": "skincareTsBackend",
+  "type": "module",
+  "scripts": {
+    "build": "esbuild --bundle --outfile=./dist/index.js --platform=node --target=node20 ./src/index.ts",
+    "zip": "zip -j lambda.zip dist/index.js",
+    "dev": "tsx watch src/serve.ts",
+    "update": "aws lambda update-function-code --zip-file fileb://lambda.zip --function-name hello",
+    "deploy": "run-s build zip update",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,md}\"",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "@hono/aws-lambda": "^1.0.0",
+    "@hono/structured-logger": "^1.0.0",
+    "@hono/swagger-ui": "^0.6.2",
+    "@hono/zod-openapi": "^1.6.3",
+    "@scalar/hono-api-reference": "^0.12.23",
+    "dotenv": "^18.0.10",
+    "hono": "^4.13.16",
+    "pino": "^10.4.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@hono/node-server": "^2.1.11",
+    "@rcmade/hono-docs": "^1.4.2",
+    "@types/node": "^26.1.1",
+    "esbuild": "^0.28.1",
+    "npm-run-all2": "^9.0.2",
+    "oxfmt": "^0.79.0",
+    "oxlint": "^1.94.0",
+    "pino-pretty": "^13.2.0",
+    "prettier": "^3.10.1",
+    "tsx": "^4.23.15"
+  }
+}
