@@ -92,3 +92,5 @@ jobs:
           aws lambda get-function-configuration \
             --function-name ${{ vars.LAMBDA_FUNCTION_NAME }} \
             --query '{Function:FunctionName,Status:LastUpdateStatus}'
+
+            
