@@ -79,17 +79,17 @@ jobs:
       - name: Deploy Lambda
         run: |
           aws lambda update-function-code \
-            --function-name ${{ vars.LAMBDA_FUNCTION_NAME }} \
+            --function-name ${{ secrets.LAMBDA_FUNCTION_NAME }} \
             --zip-file fileb://lambda.zip
 
       - name: Wait for deployment
         run: |
           aws lambda wait function-updated \
-            --function-name ${{ vars.LAMBDA_FUNCTION_NAME }}
+            --function-name ${{ secrets.LAMBDA_FUNCTION_NAME }}
 
       - name: Verify deployment
         run: |
           aws lambda get-function-configuration \
-            --function-name ${{ vars.LAMBDA_FUNCTION_NAME }} \
+            --function-name ${{ secrets.LAMBDA_FUNCTION_NAME }} \
             --query '{Function:FunctionName,Status:LastUpdateStatus}'
 
