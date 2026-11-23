@@ -97,7 +97,7 @@ if (envs.NODE_ENV === "production") {
 }
 app.get("/swagger", swaggerUI(swaggerConfig));
 app.get(
-  "/doc",
+  "/docs",
   scalar({
     url: "/api/openapi",
     theme: "bluePlanet",
