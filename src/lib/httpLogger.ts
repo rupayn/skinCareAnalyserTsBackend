@@ -1,5 +1,5 @@
 import type { MiddlewareHandler } from "hono";
-import { logger } from "./logger.js";
+import { logger } from "./logger";
 
 export const httpLogger: MiddlewareHandler = async (context, next) => {
   const start = performance.now();
