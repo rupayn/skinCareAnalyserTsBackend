@@ -94,13 +94,12 @@ const healthRoute = createRoute({
   },
 });
 
-app.openapi(healthRoute, (c) => {
-  return c.json({
+app.openapi(healthRoute, (context) => context.json({
     success: true,
     message: "Server is OK",
     status: "OK",
-  });
-});
+  })
+);
 
 
 app.doc("/openapi", {
