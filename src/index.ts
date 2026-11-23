@@ -129,6 +129,7 @@ app.get(
     theme: "bluePlanet",
     layout: "modern",
     defaultHttpClient: { targetKey: "js", clientKey: "axios" },
+    hideTestRequestButton: envs.NODE_ENV === "production",
   })
 );
 
