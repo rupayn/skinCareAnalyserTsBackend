@@ -5,7 +5,7 @@
     "build": "esbuild --bundle --outfile=./dist/index.js --platform=node --target=node20 ./src/index.ts",
     "zip": "zip -j lambda.zip dist/index.js",
     "dev": "tsx watch src/serve.ts",
-    "update": "aws lambda update-function-code --zip-file fileb://lambda.zip --function-name hello",
+    "update": "aws lambda update-function-code --zip-file fileb://lambda.zip --function-name skinCareAnalyserTsBackend",
     "deploy": "run-s build zip update",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
