@@ -95,7 +95,7 @@ const swaggerConfig: swaggerConfigType = {
 if (envs.NODE_ENV === "production") {
   swaggerConfig.supportedSubmitMethods = [];
 }
-app.get("/ui", swaggerUI(swaggerConfig));
+app.get("/swagger", swaggerUI(swaggerConfig));
 app.get(
   "/doc",
   scalar({
