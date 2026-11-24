@@ -3,11 +3,12 @@ import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
 import { Scalar as scalar } from "@scalar/hono-api-reference";
 import { swaggerUI } from "@hono/swagger-ui";
 import { envs } from "@/config/envs";
-import { ErrorCodeEnums } from "@/features/schemas.zod";
-import { httpLogger } from "@/lib/httpLogger";
-import { logger } from "@/lib/logger";
+import { ErrorCodeEnums, globalErrorHandler } from "@/features";
+import { httpLogger, logger } from "@/lib";
 import type { $ZodIssue } from "zod/v4/core";
 import { z } from "zod";
+import { notFoundHandler } from "./middleware/notFoundHandler";
+import type { Context } from "hono";
 
 const BAD_REQUEST_STATUS = 400;
 
@@ -84,9 +85,9 @@ const healthRoute = createRoute({
       content: {
         "application/json": {
           schema: z.object({
-            success: z.boolean(),
-            message: z.string(),
-            status: z.string(),
+            success: z.boolean().meta({ examples: [true] }),
+            message: z.string().meta({ examples: ["Server is OK"] }),
+            status: z.string().meta({ examples: ["OK"] }),
           }),
         },
       },
@@ -132,6 +133,9 @@ app.get(
     hideTestRequestButton: envs.NODE_ENV === "production",
   })
 );
+
+app.notFound((context: Context) => notFoundHandler(context));
+app.onError((err, context: Context) => globalErrorHandler(err, context));
 
 const handler = handle(app);
 
