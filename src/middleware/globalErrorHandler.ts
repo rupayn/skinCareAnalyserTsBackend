@@ -23,14 +23,25 @@ const getRequestContext = (
 // ────────────────────────────────
 
 const handleApiError = (error: ApiError, c: Context): Response => {
-  logger.warn(
-    Object.assign(getRequestContext(c), {
-      err: error,
-      statusCode: error.statusCode,
-      code: error.code,
-    }),
-    error.message
-  );
+  if (error.message === "Route Not found") {
+    logger.debug(
+      Object.assign(getRequestContext(c), {
+        err: error,
+        statusCode: error.statusCode,
+        code: error.code,
+      }),
+      error.message
+    );
+  } else {
+    logger.warn(
+      Object.assign(getRequestContext(c), {
+        err: error,
+        statusCode: error.statusCode,
+        code: error.code,
+      }),
+      error.message
+    );
+  }
 
   return errorResponse({
     context: c,
