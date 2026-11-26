@@ -1,17 +1,9 @@
 import type { Context } from "hono";
-import { logger } from "@/lib";
+import { genericErrorResponse, logger } from "@/lib";
 import { envs } from "@/config/envs";
-import { statusCode404 } from "@/config";
+import { ErrorCodeEnums } from "@/features";
 
 /* oxlint-disable id-length */
-
-interface NotFoundResponse {
-  success: false;
-  error: {
-    code: "NOT_FOUND";
-    message: string;
-  };
-}
 
 export const notFoundHandler = (c: Context): Response => {
   if (envs.NODE_ENV !== "production") {
@@ -24,14 +16,9 @@ export const notFoundHandler = (c: Context): Response => {
     );
   }
 
-  return c.json(
-    {
-      success: false,
-      error: {
-        code: "NOT_FOUND",
-        message: "Route not found",
-      },
-    } satisfies NotFoundResponse,
-    statusCode404
-  );
+  return genericErrorResponse(c, {
+    status: 404,
+    code: ErrorCodeEnums.NOT_FOUND,
+    message: "Route not found",
+  });
 };

@@ -10,6 +10,7 @@ export const ErrorCodeEnums = {
   REDIS_ERROR: "REDIS_ERROR",
   PAYMENT_ERROR: "PAYMENT_ERROR",
   HTTP_ERROR: "HTTP_ERROR",
+  NOT_FOUND: "NOT_FOUND",
 } as const;
 
 export const errorCodeSchema = z.enum(Object.values(ErrorCodeEnums));

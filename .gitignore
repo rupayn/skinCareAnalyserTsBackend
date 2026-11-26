@@ -30,3 +30,6 @@ lerna-debug.log*
 
 # misc
 .DS_Store
+scripts/docker
+scripts/docker/*
+.pnpm-store

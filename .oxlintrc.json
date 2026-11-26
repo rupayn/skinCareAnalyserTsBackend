@@ -8,7 +8,7 @@
     ".next/**",
     ".turbo/**",
     "out/**",
-    "scripts/gitPush.js"
+    "scripts/*"
   ],
   "plugins": [
     "typescript",
@@ -66,7 +66,8 @@
       }
     ],
     "no-undefined": "off",
-    "unicorn/no-typeof-undefined": "error"
+    "unicorn/no-typeof-undefined": "error",
+     "oxc/no-optional-chaining":"off"
   },
   "env": {
     "builtin": true

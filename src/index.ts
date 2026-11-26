@@ -1,12 +1,12 @@
 import { handle } from "@hono/aws-lambda";
-import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
+import { OpenAPIHono } from "@hono/zod-openapi";
 import { Scalar as scalar } from "@scalar/hono-api-reference";
 import { swaggerUI } from "@hono/swagger-ui";
 import { envs } from "@/config/envs";
 import { ErrorCodeEnums, globalErrorHandler } from "@/features";
-import { httpLogger, logger } from "@/lib";
+import { genericErrorResponse, httpLogger, logger } from "@/lib";
 import type { $ZodIssue } from "zod/v4/core";
-import { z } from "zod";
+import routeV1 from "@/modules";
 import { notFoundHandler } from "./middleware/notFoundHandler";
 import type { Context } from "hono";
 
@@ -57,18 +57,12 @@ const app = new OpenAPIHono({
 
     const issues = groupValidationIssues(result.error.issues);
 
-    return context.json(
-      {
-        success: false,
-        message: "Validation failed",
-        error: {
-          code: ErrorCodeEnums.VALIDATION_ERROR,
-          message: "Please check your input",
-          issues,
-        },
-      },
-      BAD_REQUEST_STATUS
-    );
+    return genericErrorResponse(context, {
+      status: BAD_REQUEST_STATUS,
+      code: ErrorCodeEnums.VALIDATION_ERROR,
+      message: "Please check your input",
+      issues,
+    });
   },
 }).basePath("/api");
 
@@ -76,32 +70,7 @@ if (envs.NODE_ENV !== "production") {
   app.use(httpLogger);
 }
 
-const healthRoute = createRoute({
-  method: "get",
-  path: "/health",
-  responses: {
-    200: {
-      description: "Health check successful",
-      content: {
-        "application/json": {
-          schema: z.object({
-            success: z.boolean().meta({ examples: [true] }),
-            message: z.string().meta({ examples: ["Server is OK"] }),
-            status: z.string().meta({ examples: ["OK"] }),
-          }),
-        },
-      },
-    },
-  },
-});
-
-app.openapi(healthRoute, (context) =>
-  context.json({
-    success: true,
-    message: "Server is OK",
-    status: "OK",
-  })
-);
+app.route("/", routeV1);
 
 app.doc("/openapi", {
   openapi: "3.0.0",

@@ -14,15 +14,20 @@
     "test": "vitest",
     "check-types": "tsc --noEmit",
     "full-check": "run-p --continue-on-error lint format:check check-types build",
-    "git-push":"node ./scripts/gitPush.js"
+    "git-push": "node ./scripts/gitPush.js",
+    "init-local-dynamodb":"node ./scripts/aws-cli-dynamodb-init.js",
+    "docker":"docker compose -f ./scripts/docker-compose.yaml up -d && docker logs -f aiskincareanalyser-api-1"
   },
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.1175.0",
+    "@aws-sdk/lib-dynamodb": "^3.1175.0",
     "@hono/aws-lambda": "^1.0.0",
     "@hono/structured-logger": "^1.0.0",
     "@hono/swagger-ui": "^0.6.2",
     "@hono/zod-openapi": "^1.6.3",
     "@scalar/hono-api-reference": "^0.12.23",
     "dotenv": "^18.0.10",
+    "electrodb": "^3.9.3",
     "hono": "^4.13.16",
     "pino": "^10.4.0",
     "zod": "^4.6.7"

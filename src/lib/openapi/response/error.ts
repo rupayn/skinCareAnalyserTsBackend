@@ -3,7 +3,6 @@ import {
   validationErrorSchema,
   type ErrorCode,
 } from "@/features";
-import type { ZodType } from "zod";
 import type { Context } from "hono";
 import type { ErrorStatusCode } from "@/lib";
 import { statusCode400, statusCode500 } from "@/config";
@@ -28,32 +27,31 @@ export const errorResponse500 = (): {
   },
 });
 
-export const genericErrorResponse = function genericErrorResponse<Template extends ZodType>(
-  statusCode: number,
-  schema: Template,
-  description = "Generic error"
-): Record<
-  number,
-  {
-    description: string;
-    content: {
-      "application/json": {
-        schema: Template;
-      };
-    };
-  }
-> {
-  return {
-    [statusCode]: {
-      description,
-      content: {
-        "application/json": {
-          schema,
-        },
-      },
+// oxlint-disable-next-line no-magic-numbers
+type JsonErrorStatusCode = 400 | 401 | 403 | 404 | 409 | 422 | 429 | 500 | 502 | 503;
+
+interface GenericErrorOptions<Template = unknown> {
+  status: JsonErrorStatusCode;
+  code: ErrorCode;
+  message?: string;
+  issues?: Template;
+}
+
+export const genericErrorResponse = <Template = unknown>(
+  context: Context,
+  { status, code, message = "Failed", issues }: GenericErrorOptions<Template>
+): Response =>
+  context.json(
+    {
+      success: false as const,
+      message,
+      error: Object.assign(issues !== undefined && { issues }, {
+        code,
+        message,
+      }),
     },
-  };
-};
+    status
+  );
 
 export const validationErrorResponse = function validationErrorResponse(): {
   [statusCode400]: {
