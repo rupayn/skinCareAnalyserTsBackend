@@ -5,11 +5,10 @@ import { ZodError } from "zod";
 import { ErrorCodeEnums } from "../features/zod";
 import { statusCode400, statusCode500, statusCode599 } from "@/config";
 
-const isErrorStatusCode = (status: number): status is ErrorStatusCode =>
-  status >= statusCode400 && status <= statusCode599;
-
 /* oxlint-disable id-length */
 
+const isErrorStatusCode = (status: number): status is ErrorStatusCode =>
+  status >= statusCode400 && status <= statusCode599;
 const getRequestContext = (
   c: Context
 ): {
@@ -19,6 +18,9 @@ const getRequestContext = (
   method: c.req.method,
   path: c.req.path,
 });
+// ────────────────────────────────
+// Expected application error
+// ────────────────────────────────
 
 const handleApiError = (error: ApiError, c: Context): Response => {
   logger.warn(
@@ -37,6 +39,10 @@ const handleApiError = (error: ApiError, c: Context): Response => {
     message: error.message,
   });
 };
+
+// ────────────────────────────────
+// Zod validation error
+// ────────────────────────────────
 
 const handleZodError = (error: ZodError, c: Context): Response => {
   const issues = error.issues.map((issue) => ({
@@ -60,6 +66,10 @@ const handleZodError = (error: ZodError, c: Context): Response => {
     issues,
   });
 };
+
+// ────────────────────────────────
+// Hono HTTP exception
+// ────────────────────────────────
 
 const handleHttpException = (error: HTTPException, c: Context): Response => {
   logger.warn(
@@ -95,6 +105,10 @@ const handleHttpException = (error: HTTPException, c: Context): Response => {
   });
 };
 
+// ────────────────────────────────
+// Unexpected / infrastructure error
+// ────────────────────────────────
+
 const handleUnexpectedError = (error: Error, c: Context): Response => {
   logger.error(
     Object.assign(getRequestContext(c), {
@@ -110,6 +124,10 @@ const handleUnexpectedError = (error: Error, c: Context): Response => {
     message: "Internal Server Error",
   });
 };
+
+// ────────────────────────────────
+// Global error handler
+// ────────────────────────────────
 
 export const globalErrorHandler = (error: Error, c: Context): Response => {
   if (error instanceof ApiError) {

@@ -1,7 +1,9 @@
 import type { Context } from "hono";
-import { genericErrorResponse, logger } from "@/lib";
+import { ApiError, logger } from "@/lib";
 import { envs } from "@/config/envs";
 import { ErrorCodeEnums } from "@/features";
+import { statusCode404 } from "@/config";
+import type { ClientErrorStatusCode } from "hono/utils/http-status";
 
 /* oxlint-disable id-length */
 
@@ -15,10 +17,9 @@ export const notFoundHandler = (c: Context): Response => {
       "Route not found"
     );
   }
-
-  return genericErrorResponse(c, {
-    status: 404,
+  throw new ApiError({
+    statusCode: statusCode404 as ClientErrorStatusCode,
     code: ErrorCodeEnums.NOT_FOUND,
-    message: "Route not found",
+    message: "Route Not found",
   });
 };

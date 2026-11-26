@@ -45,7 +45,7 @@ export const genericErrorResponse = <Template = unknown>(
     {
       success: false as const,
       message,
-      error: Object.assign(issues !== undefined && { issues }, {
+      error: Object.assign(issues === undefined ? {} : { issues }, {
         code,
         message,
       }),
@@ -90,7 +90,7 @@ export const errorResponse = <Template>({
   message = "Failed",
   issues,
 }: ErrorResponseOptions<Template>): Response => {
-  const error = Object.assign(issues !== undefined && { issues }, {
+  const error = Object.assign(issues === undefined ? {} : { issues }, {
     code,
     message,
   });

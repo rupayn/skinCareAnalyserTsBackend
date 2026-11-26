@@ -67,7 +67,8 @@
     ],
     "no-undefined": "off",
     "unicorn/no-typeof-undefined": "error",
-     "oxc/no-optional-chaining":"off"
+     "oxc/no-optional-chaining":"off",
+     "no-ternary":"off"
   },
   "env": {
     "builtin": true
