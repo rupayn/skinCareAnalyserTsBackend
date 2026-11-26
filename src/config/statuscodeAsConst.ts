@@ -1,0 +1,12 @@
+export const statusCode200 = 200,
+  statusCode400 = 400,
+  statusCode401 = 401,
+  statusCode403 = 403,
+  statusCode404 = 404,
+  statusCode409 = 409,
+  statusCode422 = 422,
+  statusCode429 = 429,
+  statusCode500 = 500,
+  statusCode502 = 502,
+  statusCode503 = 503,
+  statusCode599 = 599;
